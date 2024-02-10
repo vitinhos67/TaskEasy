@@ -1,19 +1,15 @@
 package taskEasy.demo.Controller.Pessoa;
 
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import taskEasy.demo.dto.AtualizarPessoaDTO;
-import taskEasy.demo.dto.CriarPessoaDTO;
+import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
+import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
 
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
 import taskEasy.demo.models.entity.Pessoa;
-import taskEasy.demo.models.repository.PessoaRepository;
-import taskEasy.demo.service.Pessoa.PessoaService;
+import taskEasy.demo.services.Pessoa.PessoaService;
 
 import java.util.List;
 import java.util.Optional;
