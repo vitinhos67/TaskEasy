@@ -1,4 +1,4 @@
-package taskEasy.demo.models;
+package taskEasy.demo.models.entity;
 
 
 import jakarta.persistence.Entity;
@@ -7,13 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class TarefaEntity {
+public class Departamento {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String nome;
+
 
 
 }
