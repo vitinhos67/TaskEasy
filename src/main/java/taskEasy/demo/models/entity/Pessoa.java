@@ -1,10 +1,10 @@
 package taskEasy.demo.models.entity;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
 public class Pessoa {
@@ -14,12 +14,39 @@ public class Pessoa {
     private Integer id;
     private String nome;
     private String email;
+    private Date momento;
 
-    public Pessoa(String nome, String email) {
+
+    private Integer ativo;
+
+    public Pessoa() {}
+
+
+    public Pessoa(String nome, String email, int ativo) {
         this.nome = nome;
         this.email = email;
+        this.ativo = ativo;
+        momento = new Date();
+
     }
 
+
+
+    public Date getMomento() {
+        return momento;
+    }
+
+    public void setMomento(Date momento) {
+        this.momento = momento;
+    }
+
+    public int getAtivo() {
+        return this.ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
 
     public String getNome() {
         return nome;
