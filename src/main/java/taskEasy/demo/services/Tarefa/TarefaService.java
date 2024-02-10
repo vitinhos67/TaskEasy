@@ -53,10 +53,9 @@ public class TarefaService {
     }
 
 
-    public Tarefa atualizarTarefa(int id, String status) throws Exception {
+    public Tarefa atualizarStatusTarefa(int id, String status) throws Exception {
 
-        Optional<Tarefa> tarefa = Optional.ofNullable(this.tarefaRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Tarefa não encontrada com o ID: " + id)));
+        Tarefa tarefa = this.encontrarTarefaId(id);
 
         STATUS_TAREFA escolhido = null;
         for (STATUS_TAREFA c : STATUS_TAREFA.values()) {
@@ -66,16 +65,36 @@ public class TarefaService {
             }
         }
         if (escolhido != null) {
-            tarefa.get().setStatus(escolhido);
+            tarefa.setStatus(escolhido);
         } else {
             throw new StatusNaoEncontrado("Status não aceito.");
         }
 
-        return this.tarefaRepository.save(tarefa.get());
+        return this.tarefaRepository.save(tarefa);
     }
 
     public void atribuirTarefa(Pessoa pessoa, Tarefa tarefa) {
         this.pessoaService.atribuirTarefa(pessoa, tarefa);
+    }
+
+    public Tarefa encontrarTarefaId(int id) {
+        return  this.tarefaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Tarefa não encontrada com o ID: " + id));
+    }
+
+
+    public Tarefa alocarTarefa(int id, int responsavelId) {
+
+        Tarefa encontrarTarefa = this.encontrarTarefaId(id);
+
+        //ADICIONAR FUNCAO PARA VALIDAR SE O PARAMTRO FOI PASSADO, CASO NAO, ATRIBUIR PARA O QUE MENOS TEM TAREFA
+
+        Pessoa pessoa = this.pessoaService.encontrarPessoa(responsavelId);
+
+        encontrarTarefa.setResponsavel(pessoa);
+
+        return this.tarefaRepository.save(encontrarTarefa);
+
     }
 
 

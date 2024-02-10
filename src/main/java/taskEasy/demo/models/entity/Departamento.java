@@ -14,11 +14,15 @@ public class Departamento {
     private Integer id;
     private String nome;
     private Date momento;
+    /*int quantidadeAtual;
+    int quantidadeDeTarefas;*/
 
     public Departamento(){}
 
     public Departamento(String nome) {
         this.nome = nome;
+        /*this.quantidadeAtual = 0;
+        this.quantidadeDeTarefas = 0;*/
         this.momento = new Date();
     }
 
@@ -45,6 +49,22 @@ public class Departamento {
     public Integer getId() {
         return id;
     }
+/*
+    public int getQuantidadeDeTarefas() {
+        return quantidadeDeTarefas;
+    }
 
+    public void setQuantidadeAtual(int quantidadeAtual) {
+        this.quantidadeAtual = quantidadeAtual;
+    }
+
+    public void setQuantidadeDeTarefas(int quantidadeDeTarefas) {
+        this.quantidadeDeTarefas = quantidadeDeTarefas;
+    }
+
+    public int getQuantidadeAtual() {
+        return quantidadeAtual;
+    }
+    */
 
 }

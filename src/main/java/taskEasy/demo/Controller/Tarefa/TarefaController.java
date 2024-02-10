@@ -32,9 +32,15 @@ public class TarefaController {
 
     @PostMapping(path = "/atualizar")
     public Tarefa atualizarStatusTarefa(@RequestParam int id, @RequestParam String status) throws Exception {
-        return  this.tarefaService.atualizarTarefa(id, status);
+        return  this.tarefaService.atualizarStatusTarefa(id, status);
 
     }
+
+    @PutMapping("/alocar")
+    public Tarefa alocarTarefa(@RequestParam int id, @RequestParam int responsavel) {
+            return this.tarefaService.alocarTarefa(id, responsavel);
+    }
+
 
 
 }
