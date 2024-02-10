@@ -4,7 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+import taskEasy.demo.dto.AtualizarPessoaDTO;
 import taskEasy.demo.dto.CriarPessoaDTO;
+import taskEasy.demo.exceptions.UsuarioInexistenteException;
 import taskEasy.demo.models.entity.Pessoa;
 import taskEasy.demo.models.repository.PessoaRepository;
 
@@ -35,6 +37,34 @@ public class PessoaService {
         this.pessoaRepository.deleteById(id);
     }
 
+
+    public Pessoa atualizarPessoa(int id, AtualizarPessoaDTO pessoa) {
+
+        Optional<Pessoa> pessoa1 = this.pessoaRepository.findById(id);
+
+        if(pessoa1.isEmpty()) {
+            System.out.println("to aqui");
+            throw new UsuarioInexistenteException("Usuário não encontrado.");
+        }
+
+        Pessoa pessoaObjeto = pessoa1.get();
+
+        if(pessoa.nome() != null){
+            pessoaObjeto.setNome(pessoa.nome());
+        }
+
+        if(pessoa.email() != null) {
+            pessoaObjeto.setEmail(pessoa.email());
+        }
+
+        if(pessoa.ativo() != 0) {
+            pessoaObjeto.setAtivo(pessoa.ativo());
+        }
+
+
+        return this.pessoaRepository.save(pessoaObjeto);
+
+    }
 
 
 }
