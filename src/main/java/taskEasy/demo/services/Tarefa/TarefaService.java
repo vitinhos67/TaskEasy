@@ -41,13 +41,15 @@ public class TarefaService {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date dataFormatada = (Date) formato.parse(criarTarefa.prazo());
 
+
+        // LOGICA PARA ATRIBUIR RESPONSAVEL COM MENAS TAREFAS
+
         Pessoa pessoa = this.pessoaService.encontrarPessoa(criarTarefa.id());
-
         Departamento encontrarDepartamento = this.departamentoService.encontrarDepartamentoPorNome(criarTarefa.departamento());
-
         Tarefa tarefa_criada = new Tarefa(criarTarefa.nome(), criarTarefa.descricao(), STATUS_TAREFA.CRIADA, dataFormatada, pessoa, encontrarDepartamento);
-        return this.tarefaRepository.save(tarefa_criada);
-
+        Tarefa tarefa_salva = this.tarefaRepository.save(tarefa_criada);
+        atribuirTarefa(pessoa, tarefa_salva);
+        return tarefa_salva;
     }
 
 
@@ -70,6 +72,10 @@ public class TarefaService {
         }
 
         return this.tarefaRepository.save(tarefa.get());
+    }
+
+    public void atribuirTarefa(Pessoa pessoa, Tarefa tarefa) {
+        this.pessoaService.atribuirTarefa(pessoa, tarefa);
     }
 
 

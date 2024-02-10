@@ -1,4 +1,4 @@
-package taskEasy.demo.Controller.Pessoa;
+package taskEasy.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;

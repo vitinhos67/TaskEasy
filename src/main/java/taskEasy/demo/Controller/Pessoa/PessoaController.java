@@ -36,7 +36,6 @@ public class PessoaController {
     public Pessoa criarPessoa(
             @RequestBody(required = true) CriarPessoaDTO pessoa
     ) {
-
         return this.pessoaService.criarPessoa(pessoa);
     }
 

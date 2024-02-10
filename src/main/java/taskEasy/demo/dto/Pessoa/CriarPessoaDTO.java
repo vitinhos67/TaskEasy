@@ -1,4 +1,6 @@
 package taskEasy.demo.dto.Pessoa;
 
-public record CriarPessoaDTO(String nome, String email, int ativo) {
+import taskEasy.demo.models.entity.Departamento;
+
+public record CriarPessoaDTO(String nome, String email, int ativo, String departamento) {
 }

@@ -5,9 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
+import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
+import taskEasy.demo.models.entity.Departamento;
 import taskEasy.demo.models.entity.Pessoa;
+import taskEasy.demo.models.entity.Tarefa;
 import taskEasy.demo.models.repository.PessoaRepository;
+import taskEasy.demo.services.Departamento.DepartamentoService;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +22,18 @@ public class PessoaService {
     @Autowired
     PessoaRepository pessoaRepository;
 
+    @Autowired
+    DepartamentoService departamentoService;
+
     public List<Pessoa> todasPessoas() {
         return this.pessoaRepository.findAll();
     }
 
-    public Pessoa criarPessoa(@NotNull CriarPessoaDTO pessoa) {
-        Pessoa new_pessoa = new Pessoa(pessoa.nome(), pessoa.email(), pessoa.ativo());
+    public Pessoa criarPessoa(CriarPessoaDTO pessoa) {
+
+        Departamento departamento = this.departamentoService.encontrarDepartamentoPorNome(pessoa.departamento());
+
+        Pessoa new_pessoa = new Pessoa(pessoa.nome(), pessoa.email(), pessoa.ativo(), departamento.getNome());
         return this.pessoaRepository.save(new_pessoa);
     }
 
@@ -45,7 +55,6 @@ public class PessoaService {
         Optional<Pessoa> pessoa1 = this.pessoaRepository.findById(id);
 
         if(pessoa1.isEmpty()) {
-
             throw new UsuarioInexistenteException("Usuário não encontrado.");
         }
 
@@ -63,10 +72,17 @@ public class PessoaService {
             pessoaObjeto.setAtivo(pessoa.ativo());
         }
 
-
         return this.pessoaRepository.save(pessoaObjeto);
 
     }
+
+
+    public Pessoa atribuirTarefa(Pessoa pessoa, Tarefa tarefa) {
+        pessoa.adicionarTarefa(tarefa);
+        this.pessoaRepository.save(pessoa);
+        return pessoa;
+    }
+
 
 
 }
