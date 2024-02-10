@@ -10,7 +10,7 @@ public class Pessoa {
 
     @GetMapping()
     public String getPessoa() {
-        return "Testando 2";
+        return ;
     }
 
 }

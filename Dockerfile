@@ -1,9 +1,9 @@
+FROM eclipse-temurin:17-jdk-jammy
 
-FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
 
-VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
+COPY . .
 
+COPY /target/*.jar taskEasy.jar
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+CMD ["java", "-jar", "/target/taskEasy*.jar"]

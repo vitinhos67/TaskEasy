@@ -3,14 +3,17 @@ services:
     build: .
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
   postgres:
     image: 'postgres:latest'
+    restart: always
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_DB: 'taskeasy'
+      POSTGRES_PASSWORD: 'senha123'
+      POSTGRES_USER: 'victor'
     ports:
-      - '5432'
+      - '5432:5432'
   redis:
     image: 'redis:latest'
     ports:
