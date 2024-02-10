@@ -27,6 +27,9 @@ public class PessoaService {
         return this.pessoaRepository.save(new_pessoa);
     }
 
+    public Pessoa encontrarPessoa(int id) {
+        return this.pessoaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pessoa não encontrada com o ID: " + id));
+    }
 
     public Optional<Pessoa> getPessoa(int id) {
         return this.pessoaRepository.findById(id);
