@@ -1,14 +1,16 @@
 package taskEasy.demo.Controller.Pessoa;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller()
+@RestController
+@RequestMapping(path = "/api/pessoa")
 public class Pessoa {
 
-    @GetMapping("/api/pessoa")
+    @GetMapping()
     public String getPessoa() {
-        return "Testando";
+        return "Testando 2";
     }
 
 }
