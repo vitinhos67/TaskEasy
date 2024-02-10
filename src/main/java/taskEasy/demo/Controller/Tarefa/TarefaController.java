@@ -35,8 +35,5 @@ public class TarefaController {
         return  this.tarefaService.atualizarTarefa(id, status);
 
     }
-
-
-
-
+        
 }

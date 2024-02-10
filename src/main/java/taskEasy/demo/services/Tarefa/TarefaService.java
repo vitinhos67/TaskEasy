@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Tarefa.CriarTarefaDTO;
 import taskEasy.demo.exceptions.StatusNaoEncontrado;
+import taskEasy.demo.models.entity.Departamento;
 import taskEasy.demo.models.entity.Pessoa;
 import taskEasy.demo.models.entity.STATUS_TAREFA;
 import taskEasy.demo.models.entity.Tarefa;
 import taskEasy.demo.models.repository.TarefaRepository;
+import taskEasy.demo.services.Departamento.DepartamentoService;
 import taskEasy.demo.services.Pessoa.PessoaService;
 
 import java.text.ParseException;
@@ -27,6 +29,9 @@ public class TarefaService {
     @Autowired
     PessoaService pessoaService;
 
+    @Autowired
+    DepartamentoService departamentoService;
+
     public List<Tarefa> todasTarefas() {
         return this.tarefaRepository.findAll();
     }
@@ -38,8 +43,9 @@ public class TarefaService {
 
         Pessoa pessoa = this.pessoaService.encontrarPessoa(criarTarefa.id());
 
+        Departamento encontrarDepartamento = this.departamentoService.encontrarDepartamentoPorNome(criarTarefa.departamento());
 
-        Tarefa tarefa_criada = new Tarefa(criarTarefa.nome(), criarTarefa.descricao(), STATUS_TAREFA.CRIADA, dataFormatada, pessoa);
+        Tarefa tarefa_criada = new Tarefa(criarTarefa.nome(), criarTarefa.descricao(), STATUS_TAREFA.CRIADA, dataFormatada, pessoa, encontrarDepartamento);
         return this.tarefaRepository.save(tarefa_criada);
 
     }

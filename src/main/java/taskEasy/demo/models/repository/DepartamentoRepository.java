@@ -8,4 +8,5 @@ import taskEasy.demo.models.entity.Departamento;
 
 @Repository
 public interface DepartamentoRepository extends PagingAndSortingRepository<Departamento, Integer>, CrudRepository<Departamento, Integer> {
+    public Departamento findByNome(String nome);
 }

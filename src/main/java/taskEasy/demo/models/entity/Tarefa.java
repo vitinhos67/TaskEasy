@@ -23,14 +23,20 @@ public class Tarefa {
     @JoinColumn(name = "id_pessoa_responsavel")
     private Pessoa responsavel;
 
+
+    @ManyToOne
+    @JoinColumn(name = "departamento_responsavel_id")
+    private Departamento departamentoResponsavel;
+
     public Tarefa() {}
 
-    public Tarefa(String nome, String descricao, STATUS_TAREFA status, Date prazo, Pessoa pessoa) {
+    public Tarefa(String nome, String descricao, STATUS_TAREFA status, Date prazo, Pessoa pessoa, Departamento departamento) {
         this.nome = nome;
         this.descricao = descricao;
         this.status = status;
         this.prazo = prazo;
         this.responsavel = pessoa;
+        this.departamentoResponsavel = departamento;
         this.momento = new Date();
     }
 
@@ -88,5 +94,13 @@ public class Tarefa {
 
     public void setResponsavel(Pessoa pessoa) {
         this.responsavel = pessoa;
+    }
+
+    public Departamento getDepartamentoResponsavel() {
+        return departamentoResponsavel;
+    }
+
+    public void setDepartamentoResponsavel(Departamento departamentoResponsavel) {
+        this.departamentoResponsavel = departamentoResponsavel;
     }
 }
