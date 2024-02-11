@@ -72,6 +72,14 @@ public class PessoaService {
             pessoaObjeto.setAtivo(pessoa.ativo());
         }
 
+        if(!pessoa.departamento().isEmpty()) {
+           Departamento departamento = this.departamentoService.encontrarDepartamentoPorNome(pessoa.departamento());
+
+           if(departamento.getId() == null) {
+               throw new DepartamentoInvalido("Departamento não encontrado");   
+           }
+        }
+
         return this.pessoaRepository.save(pessoaObjeto);
 
     }

@@ -5,6 +5,7 @@ import com.sun.jdi.InvalidTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Tarefa.CriarTarefaDTO;
+import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.exceptions.StatusNaoEncontrado;
 import taskEasy.demo.models.entity.Departamento;
 import taskEasy.demo.models.entity.Pessoa;
@@ -45,7 +46,26 @@ public class TarefaService {
         // LOGICA PARA ATRIBUIR RESPONSAVEL COM MENAS TAREFAS
 
         Pessoa pessoa = this.pessoaService.encontrarPessoa(criarTarefa.id());
+
         Departamento encontrarDepartamento = this.departamentoService.encontrarDepartamentoPorNome(criarTarefa.departamento());
+
+        if(encontrarDepartamento == null) {
+            throw new DepartamentoInvalido("Departamento não encontrado.");
+        }
+        String departamentoDaPessoa = pessoa.getDepartamentos();
+        if(departamentoDaPessoa != null) {
+
+            if (!departamentoDaPessoa.equals(encontrarDepartamento.getNome())) {
+                throw new DepartamentoInvalido("Pessoa não pertence ao departamento.");
+            }
+
+        } else {
+            throw new DepartamentoInvalido("A pessoa não contem um departamento.");
+        }
+
+
+
+
         Tarefa tarefa_criada = new Tarefa(criarTarefa.nome(), criarTarefa.descricao(), STATUS_TAREFA.CRIADA, dataFormatada, pessoa, encontrarDepartamento);
         Tarefa tarefa_salva = this.tarefaRepository.save(tarefa_criada);
         atribuirTarefa(pessoa, tarefa_salva);
@@ -90,6 +110,17 @@ public class TarefaService {
         //ADICIONAR FUNCAO PARA VALIDAR SE O PARAMTRO FOI PASSADO, CASO NAO, ATRIBUIR PARA O QUE MENOS TEM TAREFA
 
         Pessoa pessoa = this.pessoaService.encontrarPessoa(responsavelId);
+
+        String departamentoDaPessoa = pessoa.getDepartamentos();
+
+        if(departamentoDaPessoa != null) {
+            if(!departamentoDaPessoa.equals(encontrarTarefa.getDepartamentoResponsavel())) {
+                throw new DepartamentoInvalido("Pessoa não pertence ao departamento");
+            }
+        } else {
+            throw new DepartamentoInvalido("Pessoa não contem um departamento");
+        }
+
 
         encontrarTarefa.setResponsavel(pessoa);
 
