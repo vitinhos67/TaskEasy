@@ -72,7 +72,7 @@ public class PessoaService {
             pessoaObjeto.setAtivo(pessoa.ativo());
         }
 
-        if(!pessoa.departamento().isEmpty()) {
+        if(pessoa.departamento() != null) {
            Departamento departamento = this.departamentoService.encontrarDepartamentoPorNome(pessoa.departamento());
 
            if(departamento.getId() == null) {

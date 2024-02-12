@@ -1,7 +1,10 @@
 package taskEasy.demo.models;
 
+import taskEasy.demo.models.entity.Pessoa;
+
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.List;
 
 public class DataResponse<T> {
 
@@ -15,6 +18,8 @@ public class DataResponse<T> {
         this.momento = new Date();
         this.data = response;
     }
+
+
 
     public boolean isSucesso() {
         return sucesso;

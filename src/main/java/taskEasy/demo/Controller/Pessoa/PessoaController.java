@@ -1,5 +1,6 @@
 package taskEasy.demo.Controller.Pessoa;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +9,11 @@ import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
 
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
+import taskEasy.demo.models.DataResponse;
 import taskEasy.demo.models.entity.Pessoa;
 import taskEasy.demo.services.Pessoa.PessoaService;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,39 +25,42 @@ public class PessoaController {
     PessoaService pessoaService;
 
     @GetMapping()
-    public List<Pessoa> getTodasPessoas() {
-        return this.pessoaService.todasPessoas();
+    public ResponseEntity<DataResponse<List<Pessoa>>> getTodasPessoas() {
+
+        List<Pessoa> pessoas = this.pessoaService.todasPessoas();
+
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse(true,pessoas ));
     }
 
     @GetMapping("/{id}")
-    public Optional<Pessoa> getPessoa(@PathVariable int id) {
-        return this.pessoaService.getPessoa(id);
+    public ResponseEntity<DataResponse<List<Pessoa>>> getPessoa(@PathVariable int id) {
+        Optional<Pessoa> pessoa = this.pessoaService.getPessoa(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse(true, pessoa));
     }
 
 
     @PostMapping()
-    public Pessoa criarPessoa(
-            @RequestBody(required = true) CriarPessoaDTO pessoa
+    public ResponseEntity<DataResponse<Pessoa>> criarPessoa(
+            @RequestBody(required = true) CriarPessoaDTO pessoaDTO
     ) {
-        return this.pessoaService.criarPessoa(pessoa);
+        Pessoa pessoa = this.pessoaService.criarPessoa(pessoaDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, pessoa));
     }
 
     @DeleteMapping()
-    public String deletarPessoa(@RequestParam int id) {
+    public ResponseEntity<DataResponse<String>> deletarPessoa(@RequestParam int id) {
         this.pessoaService.deletarPessoa(id);
-        return "deletado.";
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, "Pessoa deletada"));
     }
 
     @PutMapping
-    public ResponseEntity<Pessoa> atualizarPessoa(@RequestParam int id, @RequestBody AtualizarPessoaDTO pessoa) throws Exception {
+    public ResponseEntity<DataResponse<Pessoa>> atualizarPessoa(@RequestParam int id, @RequestBody AtualizarPessoaDTO pessoa) throws Exception {
         try {
             Pessoa pessoa_salva = this.pessoaService.atualizarPessoa(id, pessoa);
-
-
-            return ResponseEntity.status(HttpStatus.OK).body(pessoa_salva);
+            return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true,pessoa_salva));
         } catch (Exception e) {
             if (e instanceof UsuarioInexistenteException) throw new UsuarioInexistenteException(e.getMessage());
-
             if (e != null) throw new Exception(e.getMessage());
 
 
