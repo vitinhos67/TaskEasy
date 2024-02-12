@@ -9,15 +9,23 @@ import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.EncontrarPessoaPorParametroDTO;
+import taskEasy.demo.dto.Tarefa.TarefaPorPeriodoDTO;
 import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
+import taskEasy.demo.helpers.MediaResponsavel;
 import taskEasy.demo.models.DataResponse;
 import taskEasy.demo.models.entity.Departamento;
 import taskEasy.demo.models.entity.Pessoa;
 import taskEasy.demo.models.entity.Tarefa;
 import taskEasy.demo.models.repository.PessoaRepository;
+import taskEasy.demo.models.repository.TarefaRepository;
 import taskEasy.demo.services.Departamento.DepartamentoService;
+import taskEasy.demo.services.Tarefa.TarefaService;
 
+import javax.print.attribute.standard.Media;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +37,11 @@ public class PessoaService {
 
     @Autowired
     DepartamentoService departamentoService;
+
+    @Autowired
+    TarefaRepository tarefaRepository;
+
+
 
     public List<Pessoa> todasPessoas() {
         return this.pessoaRepository.findAll();
@@ -116,6 +129,30 @@ public class PessoaService {
         List<Pessoa> pessoaEncontrada = this.pessoaRepository.encontrarPessoaPorParametros(nome, departamento);
         return pessoaEncontrada;
     }
+
+
+    public MediaResponsavel mediaResponsavel(TarefaPorPeriodoDTO tarefaPorPeriodoDTO) throws ParseException {
+
+        Pessoa pessoa = this.encontrarPessoa(tarefaPorPeriodoDTO.id());
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataInicio = (Date) formato.parse(tarefaPorPeriodoDTO.inicio());
+        Date dataFim = (Date) formato.parse(tarefaPorPeriodoDTO.fim());
+
+        List<Tarefa> tarefas = this.tarefaRepository.encontrarTarefasDeResponsavelPorPeriodo(tarefaPorPeriodoDTO.id(), dataInicio, dataFim);
+        long total = 0;
+        for (Tarefa elemento : tarefas) {
+            total += elemento.getTempoFinalizado();
+        }
+        long media = total / tarefas.size();
+
+
+        MediaResponsavel mediaResponsavel = new MediaResponsavel(media, total, pessoa.getNome(), pessoa.getEmail());
+
+        return mediaResponsavel;
+
+    }
+
 
 
 

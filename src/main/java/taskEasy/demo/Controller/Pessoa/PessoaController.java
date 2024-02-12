@@ -9,12 +9,16 @@ import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
 
 import taskEasy.demo.dto.Pessoa.EncontrarPessoaPorParametroDTO;
+import taskEasy.demo.dto.Tarefa.TarefaPorPeriodoDTO;
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
+import taskEasy.demo.helpers.MediaResponsavel;
 import taskEasy.demo.models.DataResponse;
 import taskEasy.demo.models.entity.Pessoa;
+import taskEasy.demo.models.entity.Tarefa;
 import taskEasy.demo.services.Pessoa.PessoaService;
 
 import javax.xml.crypto.Data;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,6 +79,13 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, pessoaEncontrada));
     }
 
+    @PostMapping("/media")
+    public ResponseEntity<DataResponse<MediaResponsavel>> mediaResponsavel(@RequestBody TarefaPorPeriodoDTO tarefaPorPeriodoDTO) throws ParseException {
+
+            MediaResponsavel mediaResponsavel = this.pessoaService.mediaResponsavel(tarefaPorPeriodoDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, mediaResponsavel));
+        }
+    }
 
 
-}
+

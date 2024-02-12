@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class TarefaService {
 
     @Autowired

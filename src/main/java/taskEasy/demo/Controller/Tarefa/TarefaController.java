@@ -61,8 +61,7 @@ public class TarefaController {
         return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, tarefas));
     }
 
-
-    @PostMapping("/responsavel/media")
+    @PostMapping("/responsavel/periodo")
     public ResponseEntity<DataResponse<List<Tarefa>>> tarefasDoResponsavelPorPeriodo(@RequestBody TarefaPorPeriodoDTO tarefaPorPeriodoDTO) throws ParseException {
 
         List<Tarefa> tarefas = this.tarefaService.tarefasPorResponsavelePeriodo(tarefaPorPeriodoDTO);
