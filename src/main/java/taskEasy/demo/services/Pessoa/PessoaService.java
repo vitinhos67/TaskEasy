@@ -161,6 +161,13 @@ public class PessoaService {
     }
 
 
+    public Pessoa adicionarTempoGasto(Pessoa pessoa, long tempo) {
+        pessoa.setTotalDeHoras(pessoa.getTotalDeHoras() + tempo);
+        return this.pessoaRepository.save(pessoa);
+    }
+
+
+
 
 
 

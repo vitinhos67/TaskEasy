@@ -100,13 +100,19 @@ public class TarefaService {
         if (escolhido != null) {
 
             if(escolhido == STATUS_TAREFA.REALIZADA) {
-                System.out.println(tarefa.getTempoFinalizado());
+
                 if(tarefa.getTempoFinalizado() < 1) {
                     Date horarioDeCriacao = tarefa.getMomento();
+
                     LocalDateTime inicio = LocalDateTime.ofInstant(horarioDeCriacao.toInstant(), ZoneId.systemDefault());
                     LocalDateTime fim = LocalDateTime.now();
+
                     Duration duracao = Duration.between(inicio, fim);
                     tarefa.setTempoFinalizado(duracao.toHours());
+
+                    Pessoa pessoa = this.pessoaService.encontrarPessoa(tarefa.getResponsavel().getId());
+
+                    this.pessoaService.adicionarTempoGasto(pessoa, duracao.toHours());
                 } else {
                     throw new TarefaException("Tarefa já finalizada");
                 }

@@ -24,8 +24,8 @@ public class Pessoa {
     private Date momento;
     private Integer ativo;
 
-
     private String departamento;
+    private Long totalDeHoras;
 
     @ManyToMany
     @JoinTable(
@@ -109,4 +109,11 @@ public class Pessoa {
         return departamento;
     }
 
+    public void setTotalDeHoras(Long totalDeHoras) {
+        this.totalDeHoras = totalDeHoras;
+    }
+
+    public Long getTotalDeHoras() {
+        return totalDeHoras;
+    }
 }
