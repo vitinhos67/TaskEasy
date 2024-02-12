@@ -2,8 +2,12 @@ package taskEasy.demo.Controller.Tarefa;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import taskEasy.demo.dto.Tarefa.CriarTarefaDTO;
+import taskEasy.demo.models.DataResponse;
 import taskEasy.demo.models.entity.STATUS_TAREFA;
 import taskEasy.demo.models.entity.Tarefa;
 import taskEasy.demo.services.Tarefa.TarefaService;
@@ -41,6 +45,13 @@ public class TarefaController {
     @PutMapping("/alocar")
     public Tarefa alocarTarefa(@RequestParam int id, @RequestParam int responsavel) {
             return this.tarefaService.alocarTarefa(id, responsavel);
+    }
+
+
+    @GetMapping(path = "/pendentes")
+    public ResponseEntity<DataResponse<List<Tarefa>>> tarefaPendentes(@RequestParam(required = true) int limite) {
+        List<Tarefa> tarefas = this.tarefaService.tarefasPendentes(limite);
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse(true, tarefas));
     }
 
 

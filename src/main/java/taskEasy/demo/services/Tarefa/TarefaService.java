@@ -42,36 +42,40 @@ public class TarefaService {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         Date dataFormatada = (Date) formato.parse(criarTarefa.prazo());
 
-
-        // LOGICA PARA ATRIBUIR RESPONSAVEL COM MENAS TAREFAS
-
-        Pessoa pessoa = this.pessoaService.encontrarPessoa(criarTarefa.id());
+        Pessoa pessoa = null;
+        String departamentoDaPessoa = null;
 
         Departamento encontrarDepartamento = this.departamentoService.encontrarDepartamentoPorNome(criarTarefa.departamento());
 
-        if(encontrarDepartamento == null) {
+        if (encontrarDepartamento == null) {
             throw new DepartamentoInvalido("Departamento não encontrado.");
         }
-        String departamentoDaPessoa = pessoa.getDepartamentos();
-        if(departamentoDaPessoa != null) {
 
+        if(criarTarefa.id() != null) {
+            pessoa = this.pessoaService.encontrarPessoa(criarTarefa.id());
+            departamentoDaPessoa = pessoa.getDepartamentos();
+        }
+
+
+        if (departamentoDaPessoa != null) {
             if (!departamentoDaPessoa.equals(encontrarDepartamento.getNome())) {
                 throw new DepartamentoInvalido("Pessoa não pertence ao departamento.");
             }
-
         } else {
-            throw new DepartamentoInvalido("A pessoa não contem um departamento.");
+            throw new DepartamentoInvalido("Pessoa não esta em um departamento");
         }
-
-
-
 
         Tarefa tarefa_criada = new Tarefa(criarTarefa.nome(), criarTarefa.descricao(), STATUS_TAREFA.CRIADA, dataFormatada, pessoa, encontrarDepartamento);
         Tarefa tarefa_salva = this.tarefaRepository.save(tarefa_criada);
-        atribuirTarefa(pessoa, tarefa_salva);
-        return tarefa_salva;
-    }
 
+        if(pessoa != null) {
+            atribuirTarefa(pessoa, tarefa_salva);
+        }
+
+
+        return tarefa_criada;
+
+    }
 
     public Tarefa atualizarStatusTarefa(int id, String status) throws Exception {
 
@@ -106,17 +110,18 @@ public class TarefaService {
     public Tarefa alocarTarefa(int id, int responsavelId) {
 
         Tarefa encontrarTarefa = this.encontrarTarefaId(id);
-
-        //ADICIONAR FUNCAO PARA VALIDAR SE O PARAMTRO FOI PASSADO, CASO NAO, ATRIBUIR PARA O QUE MENOS TEM TAREFA
-
         Pessoa pessoa = this.pessoaService.encontrarPessoa(responsavelId);
 
         String departamentoDaPessoa = pessoa.getDepartamentos();
+        String departamentoDaTarefa = encontrarTarefa.getDepartamento().getNome();
+
 
         if(departamentoDaPessoa != null) {
-            if(!departamentoDaPessoa.equals(encontrarTarefa.getDepartamentoResponsavel())) {
+
+            if(!departamentoDaPessoa.equals(departamentoDaTarefa)) {
                 throw new DepartamentoInvalido("Pessoa não pertence ao departamento");
             }
+
         } else {
             throw new DepartamentoInvalido("Pessoa não contem um departamento");
         }
@@ -127,6 +132,12 @@ public class TarefaService {
         return this.tarefaRepository.save(encontrarTarefa);
 
     }
+
+
+    public List<Tarefa> tarefasPendentes(int limite) {
+        return this.tarefaRepository.encontrarTarefaPendentes(limite);
+    }
+
 
 
 }

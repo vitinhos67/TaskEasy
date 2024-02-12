@@ -4,12 +4,14 @@ package taskEasy.demo.models.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "tarefa")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@EnableJpaRepositories
 public class Tarefa {
 
     @Id
@@ -29,7 +31,7 @@ public class Tarefa {
 
     @ManyToOne
     @JoinColumn(name = "departamento_responsavel_id")
-    private Departamento departamentoResponsavel;
+    private Departamento departamento;
 
     public Tarefa() {}
 
@@ -39,7 +41,7 @@ public class Tarefa {
         this.status = status;
         this.prazo = prazo;
         this.responsavel = pessoa;
-        this.departamentoResponsavel = departamento;
+        this.departamento = departamento;
         this.momento = new Date();
     }
 
@@ -99,11 +101,11 @@ public class Tarefa {
         this.responsavel = pessoa;
     }
 
-    public Departamento getDepartamentoResponsavel() {
-        return departamentoResponsavel;
+    public Departamento getDepartamento() {
+        return departamento;
     }
 
     public void setDepartamentoResponsavel(Departamento departamentoResponsavel) {
-        this.departamentoResponsavel = departamentoResponsavel;
+        this.departamento= departamentoResponsavel;
     }
 }
