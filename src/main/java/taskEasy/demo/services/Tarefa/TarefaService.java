@@ -7,6 +7,7 @@ import com.sun.jdi.InvalidTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Tarefa.CriarTarefaDTO;
+import taskEasy.demo.dto.Tarefa.TarefaPorPeriodoDTO;
 import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.exceptions.StatusNaoEncontrado;
 import taskEasy.demo.exceptions.TarefaException;
@@ -77,9 +78,9 @@ public class TarefaService {
         Tarefa tarefa_salva = this.tarefaRepository.save(tarefa_criada);
         this.departamentoService.adicionarQtdDeTarefa(encontrarDepartamento);
 
-        /*if(pessoa != null) {
+        if(pessoa != null) {
             atribuirTarefa(pessoa, tarefa_salva);
-        }*/
+        }
 
 
         return tarefa_criada;
@@ -167,8 +168,13 @@ public class TarefaService {
 
 
 
-    public List<Tarefa> tarefasPorResponsavelePeriodo(int id) {
-        List<Tarefa> tarefa = this.encontrarTarefasDeResponsavel(id);
+    public List<Tarefa> tarefasPorResponsavelePeriodo(TarefaPorPeriodoDTO tarefaPorPeriodoDTO) throws ParseException {
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataInicio = (Date) formato.parse(tarefaPorPeriodoDTO.inicio());
+        Date dataFim = (Date) formato.parse(tarefaPorPeriodoDTO.fim());
+
+        List<Tarefa> tarefa = this.tarefaRepository.encontrarTarefasDeResponsavelPorPeriodo(tarefaPorPeriodoDTO.id(), dataInicio, dataFim);
         return tarefa;
     }
 

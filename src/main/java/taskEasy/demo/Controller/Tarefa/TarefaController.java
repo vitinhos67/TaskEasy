@@ -8,6 +8,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import taskEasy.demo.dto.Tarefa.CriarTarefaDTO;
+import taskEasy.demo.dto.Tarefa.TarefaPorPeriodoDTO;
 import taskEasy.demo.models.DataResponse;
 import taskEasy.demo.models.entity.STATUS_TAREFA;
 import taskEasy.demo.models.entity.Tarefa;
@@ -56,9 +57,19 @@ public class TarefaController {
 
     @GetMapping("/responsavel/{id}")
     public ResponseEntity<DataResponse<List<Tarefa>>> tarefasPorResponsavel(@PathVariable int id) {
-        List<Tarefa> tarefas = this.tarefaService.tarefasPorResponsavelePeriodo(id);
+        List<Tarefa> tarefas = this.tarefaService.encontrarTarefasDeResponsavel(id);
         return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, tarefas));
     }
+
+
+    @PostMapping("/responsavel/media")
+    public ResponseEntity<DataResponse<List<Tarefa>>> tarefasDoResponsavelPorPeriodo(@RequestBody TarefaPorPeriodoDTO tarefaPorPeriodoDTO) throws ParseException {
+
+        List<Tarefa> tarefas = this.tarefaService.tarefasPorResponsavelePeriodo(tarefaPorPeriodoDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, tarefas));
+    }
+
 
 
 

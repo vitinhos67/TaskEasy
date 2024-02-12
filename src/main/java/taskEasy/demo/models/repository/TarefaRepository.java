@@ -35,8 +35,8 @@ public interface TarefaRepository extends PagingAndSortingRepository<Tarefa, Int
             nativeQuery = true,
             value = "SELECT * FROM public.tarefa t " +
                     "INNER JOIN public.pessoa_tarefa pt ON pt.pessoa_id  = :id " +
-                    "WHERE t.id_pessoa_responsavel = :id" +
-                    "WHERE momento BETWEEN :inicio AND :fim"
+                    "WHERE t.id_pessoa_responsavel = :id " +
+                    "AND momento BETWEEN :inicio AND :fim"
     )
     List<Tarefa> encontrarTarefasDeResponsavelPorPeriodo(int id, Date inicio, Date fim);
 
