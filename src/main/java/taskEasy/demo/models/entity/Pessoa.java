@@ -6,12 +6,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@EnableJpaRepositories
 public class Pessoa {
 
     @Id

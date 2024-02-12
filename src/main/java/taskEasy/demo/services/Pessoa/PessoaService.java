@@ -2,11 +2,13 @@ package taskEasy.demo.services.Pessoa;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
+import taskEasy.demo.dto.Pessoa.EncontrarPessoaPorParametroDTO;
 import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
 import taskEasy.demo.models.DataResponse;
@@ -95,6 +97,13 @@ public class PessoaService {
         this.pessoaRepository.save(pessoa);
         return pessoa;
     }
+
+
+    public List<Pessoa> encontrarPessoaPorParametros(String nome, String departamento) {
+        List<Pessoa> pessoaEncontrada = this.pessoaRepository.encontrarPessoaPorParametros(nome, departamento);
+        return pessoaEncontrada;
+    }
+
 
 
 

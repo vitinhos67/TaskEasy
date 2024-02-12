@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
 
+import taskEasy.demo.dto.Pessoa.EncontrarPessoaPorParametroDTO;
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
 import taskEasy.demo.models.DataResponse;
 import taskEasy.demo.models.entity.Pessoa;
@@ -24,11 +25,10 @@ public class PessoaController {
     @Autowired
     PessoaService pessoaService;
 
+
     @GetMapping()
     public ResponseEntity<DataResponse<List<Pessoa>>> getTodasPessoas() {
-
         List<Pessoa> pessoas = this.pessoaService.todasPessoas();
-
         return ResponseEntity.status(HttpStatus.OK).body(new DataResponse(true,pessoas ));
     }
 
@@ -67,4 +67,14 @@ public class PessoaController {
         }
         return null;
     }
+
+
+    @GetMapping(path = "/encontrar")
+    public ResponseEntity<DataResponse<List<Pessoa>>> encontrarPessoaPorParametros(@RequestParam String nome, @RequestParam String departamento) {
+        List<Pessoa> pessoaEncontrada = this.pessoaService.encontrarPessoaPorParametros(nome, departamento);
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, pessoaEncontrada));
+    }
+
+
+
 }
