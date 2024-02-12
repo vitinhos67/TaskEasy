@@ -36,9 +36,16 @@ public class PessoaService {
 
     public Pessoa criarPessoa(CriarPessoaDTO pessoa) {
 
-        Departamento departamento = this.departamentoService.encontrarDepartamentoPorNome(pessoa.departamento());
+        Departamento departamento = null;
+        Pessoa new_pessoa = null;
+        if(pessoa.departamento() != null) {
+            departamento = this.departamentoService.encontrarDepartamentoPorNome(pessoa.departamento());
+            departamentoService.adicionarQtdPessoa(departamento);
+            new_pessoa = new Pessoa(pessoa.nome(), pessoa.email(), pessoa.ativo(), departamento.getNome());
+        } else {
+            new_pessoa = new Pessoa(pessoa.nome(), pessoa.email(), pessoa.ativo(), null);
+        }
 
-        Pessoa new_pessoa = new Pessoa(pessoa.nome(), pessoa.email(), pessoa.ativo(), departamento.getNome());
         return this.pessoaRepository.save(new_pessoa);
     }
 

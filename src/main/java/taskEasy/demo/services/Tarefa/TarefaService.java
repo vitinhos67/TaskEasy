@@ -67,6 +67,7 @@ public class TarefaService {
 
         Tarefa tarefa_criada = new Tarefa(criarTarefa.nome(), criarTarefa.descricao(), STATUS_TAREFA.CRIADA, dataFormatada, pessoa, encontrarDepartamento);
         Tarefa tarefa_salva = this.tarefaRepository.save(tarefa_criada);
+        this.departamentoService.adicionarQtdDeTarefa(encontrarDepartamento);
 
         if(pessoa != null) {
             atribuirTarefa(pessoa, tarefa_salva);
@@ -132,7 +133,6 @@ public class TarefaService {
         return this.tarefaRepository.save(encontrarTarefa);
 
     }
-
 
     public List<Tarefa> tarefasPendentes(int limite) {
         return this.tarefaRepository.encontrarTarefaPendentes(limite);

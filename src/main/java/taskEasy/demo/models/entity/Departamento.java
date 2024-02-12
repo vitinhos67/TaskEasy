@@ -1,7 +1,9 @@
 package taskEasy.demo.models.entity;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Date;
 import java.util.List;
@@ -16,15 +18,18 @@ public class Departamento {
     @Column(unique = true)
     private String nome;
     private Date momento;
-    /*int quantidadeAtual;
-    int quantidadeDeTarefas;*/
+
+    @Column(name = "quantidade_de_pessoas")
+    private int quantidadeAtual;
+    @Column(name = "quantidade_de_tarefas")
+    private int quantidadeDeTarefas;
 
     public Departamento(){}
 
     public Departamento(String nome) {
         this.nome = nome;
-        /*this.quantidadeAtual = 0;
-        this.quantidadeDeTarefas = 0;*/
+        this.quantidadeAtual = 0;
+        this.quantidadeDeTarefas = 0;
         this.momento = new Date();
     }
 
@@ -51,7 +56,7 @@ public class Departamento {
     public Integer getId() {
         return id;
     }
-/*
+
     public int getQuantidadeDeTarefas() {
         return quantidadeDeTarefas;
     }
@@ -67,6 +72,6 @@ public class Departamento {
     public int getQuantidadeAtual() {
         return quantidadeAtual;
     }
-    */
+
 
 }

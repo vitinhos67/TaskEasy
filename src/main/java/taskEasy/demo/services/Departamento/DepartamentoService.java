@@ -41,4 +41,33 @@ public class DepartamentoService {
     }
 
 
+    public Departamento adicionarQtdDeTarefa(Departamento departamento) {
+        int atualizarQtd = departamento.getQuantidadeDeTarefas() + 1;
+        departamento.setQuantidadeDeTarefas(atualizarQtd);
+        Departamento departamentoAtualizado = this.departamentoRepository.save(departamento);
+        return departamentoAtualizado;
+
+    }
+
+    public Departamento adicionarQtdPessoa(Departamento departamento) {
+        int atualizarQtd = departamento.getQuantidadeAtual() + 1;
+        departamento.setQuantidadeAtual(atualizarQtd);
+        Departamento departamentoAtualizado = this.departamentoRepository.save(departamento);
+        return departamentoAtualizado;
+
+    }
+
+    public Departamento removerPessoaDepartamento(Departamento departamento) {
+        int atualizarQtd = departamento.getQuantidadeAtual() - 1;
+        departamento.setQuantidadeAtual(atualizarQtd);
+        Departamento departamentoAtualizado = this.departamentoRepository.save(departamento);
+        return departamentoAtualizado;
+
+    }
+
+
+
+
+
+
 }
