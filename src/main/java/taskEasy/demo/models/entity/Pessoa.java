@@ -46,6 +46,7 @@ public class Pessoa {
         this.ativo = ativo;
         momento = new Date();
         this.departamento = departamento;
+
     }
 
 
@@ -107,4 +108,5 @@ public class Pessoa {
     public String getDepartamentos() {
         return departamento;
     }
+
 }

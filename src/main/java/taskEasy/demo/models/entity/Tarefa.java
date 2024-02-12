@@ -21,9 +21,7 @@ public class Tarefa {
     private String nome;
     private String descricao;
     private Date prazo;
-
-    @Column(name = "tempo_finalizado")
-    private long tempoFinalizadoEmMinutos;
+    Long tempoFinalizado;
 
     private STATUS_TAREFA status;
     private Date momento;
@@ -47,7 +45,7 @@ public class Tarefa {
         this.responsavel = pessoa;
         this.departamento = departamento;
         this.momento = new Date();
-        this.tempoFinalizadoEmMinutos = 0;
+        this.tempoFinalizado = 0L;
     }
 
     public String getNome() {
@@ -114,11 +112,11 @@ public class Tarefa {
         this.departamento= departamentoResponsavel;
     }
 
-    public void setTempoFinalizadoEmMinutos(Long tempoFinalizadoEmMinutos) {
-        this.tempoFinalizadoEmMinutos = tempoFinalizadoEmMinutos;
+    public void setTempoFinalizado(Long tempoFinalizadoEmMinutos) {
+        this.tempoFinalizado = tempoFinalizadoEmMinutos;
     }
 
-    public Long getTempoFinalizadoEmMinutos() {
-        return tempoFinalizadoEmMinutos;
+    public Long getTempoFinalizado() {
+        return tempoFinalizado;
     }
 }

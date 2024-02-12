@@ -40,8 +40,14 @@ public class PessoaService {
         Pessoa new_pessoa = null;
         if(pessoa.departamento() != null) {
             departamento = this.departamentoService.encontrarDepartamentoPorNome(pessoa.departamento());
+
+            if(departamento == null) {
+                throw new DepartamentoInvalido("Departamento não encontrado");
+            }
+
             departamentoService.adicionarQtdPessoa(departamento);
             new_pessoa = new Pessoa(pessoa.nome(), pessoa.email(), pessoa.ativo(), departamento.getNome());
+
         } else {
             new_pessoa = new Pessoa(pessoa.nome(), pessoa.email(), pessoa.ativo(), null);
         }

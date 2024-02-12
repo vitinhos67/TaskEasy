@@ -1,6 +1,7 @@
 package taskEasy.demo.Controller.Tarefa;
 
 
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -21,8 +22,6 @@ public class TarefaController {
 
     @Autowired
     TarefaService tarefaService;
-
-
 
 
     @GetMapping
@@ -53,6 +52,14 @@ public class TarefaController {
         List<Tarefa> tarefas = this.tarefaService.tarefasPendentes(limite);
         return ResponseEntity.status(HttpStatus.OK).body(new DataResponse(true, tarefas));
     }
+
+
+    @GetMapping("/responsavel/{id}")
+    public ResponseEntity<DataResponse<List<Tarefa>>> tarefasPorResponsavel(@PathVariable int id) {
+        List<Tarefa> tarefas = this.tarefaService.tarefasPorResponsavelePeriodo(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, tarefas));
+    }
+
 
 
 

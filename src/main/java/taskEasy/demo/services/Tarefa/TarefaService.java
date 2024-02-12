@@ -1,6 +1,8 @@
 package taskEasy.demo.services.Tarefa;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sun.jdi.InvalidTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class TarefaService {
 
     @Autowired
@@ -74,9 +77,9 @@ public class TarefaService {
         Tarefa tarefa_salva = this.tarefaRepository.save(tarefa_criada);
         this.departamentoService.adicionarQtdDeTarefa(encontrarDepartamento);
 
-        if(pessoa != null) {
+        /*if(pessoa != null) {
             atribuirTarefa(pessoa, tarefa_salva);
-        }
+        }*/
 
 
         return tarefa_criada;
@@ -97,13 +100,13 @@ public class TarefaService {
         if (escolhido != null) {
 
             if(escolhido == STATUS_TAREFA.REALIZADA) {
-                System.out.println(tarefa.getTempoFinalizadoEmMinutos());
-                if(tarefa.getTempoFinalizadoEmMinutos() < 1) {
+                System.out.println(tarefa.getTempoFinalizado());
+                if(tarefa.getTempoFinalizado() < 1) {
                     Date horarioDeCriacao = tarefa.getMomento();
                     LocalDateTime inicio = LocalDateTime.ofInstant(horarioDeCriacao.toInstant(), ZoneId.systemDefault());
                     LocalDateTime fim = LocalDateTime.now();
                     Duration duracao = Duration.between(inicio, fim);
-                    tarefa.setTempoFinalizadoEmMinutos(duracao.toMinutes());
+                    tarefa.setTempoFinalizado(duracao.toHours());
                 } else {
                     throw new TarefaException("Tarefa já finalizada");
                 }
@@ -155,6 +158,18 @@ public class TarefaService {
 
     public List<Tarefa> tarefasPendentes(int limite) {
         return this.tarefaRepository.encontrarTarefaPendentes(limite);
+    }
+
+
+    public List<Tarefa> encontrarTarefasDeResponsavel(int id) {
+        return this.tarefaRepository.encontrarTarefasDeResponsavel(id);
+    }
+
+
+
+    public List<Tarefa> tarefasPorResponsavelePeriodo(int id) {
+        List<Tarefa> tarefa = this.encontrarTarefasDeResponsavel(id);
+        return tarefa;
     }
 
 
