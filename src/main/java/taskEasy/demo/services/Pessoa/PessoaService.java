@@ -140,16 +140,23 @@ public class PessoaService {
         Date dataFim = (Date) formato.parse(tarefaPorPeriodoDTO.fim());
 
         List<Tarefa> tarefas = this.tarefaRepository.encontrarTarefasDeResponsavelPorPeriodo(tarefaPorPeriodoDTO.id(), dataInicio, dataFim);
+
         long total = 0;
-        for (Tarefa elemento : tarefas) {
-            total += elemento.getTempoFinalizado();
+        long media = 0;
+
+        if(tarefas.size() >= 1) {
+            total = 0;
+            for (Tarefa elemento : tarefas) {
+                total += elemento.getTempoFinalizado();
+            }
+            media = total / tarefas.size();
         }
-        long media = total / tarefas.size();
+
+            MediaResponsavel mediaResponsavel = new MediaResponsavel(media, total, pessoa.getNome(), pessoa.getEmail());
+            return mediaResponsavel;
 
 
-        MediaResponsavel mediaResponsavel = new MediaResponsavel(media, total, pessoa.getNome(), pessoa.getEmail());
 
-        return mediaResponsavel;
 
     }
 
