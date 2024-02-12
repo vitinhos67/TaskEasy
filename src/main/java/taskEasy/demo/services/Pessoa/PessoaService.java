@@ -2,11 +2,14 @@ package taskEasy.demo.services.Pessoa;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Pessoa.AtualizarPessoaDTO;
 import taskEasy.demo.dto.Pessoa.CriarPessoaDTO;
 import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.exceptions.UsuarioInexistenteException;
+import taskEasy.demo.models.DataResponse;
 import taskEasy.demo.models.entity.Departamento;
 import taskEasy.demo.models.entity.Pessoa;
 import taskEasy.demo.models.entity.Tarefa;
@@ -80,7 +83,9 @@ public class PessoaService {
            }
         }
 
-        return this.pessoaRepository.save(pessoaObjeto);
+        Pessoa pessoaAtualiziada = this.pessoaRepository.save(pessoaObjeto);
+
+        return pessoaAtualiziada;
 
     }
 
