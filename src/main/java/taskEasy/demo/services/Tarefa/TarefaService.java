@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Tarefa.CriarTarefaDTO;
 import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.exceptions.StatusNaoEncontrado;
+import taskEasy.demo.exceptions.TarefaException;
 import taskEasy.demo.models.entity.Departamento;
 import taskEasy.demo.models.entity.Pessoa;
 import taskEasy.demo.models.entity.STATUS_TAREFA;
@@ -17,6 +18,10 @@ import taskEasy.demo.services.Pessoa.PessoaService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -90,6 +95,20 @@ public class TarefaService {
             }
         }
         if (escolhido != null) {
+
+            if(escolhido == STATUS_TAREFA.REALIZADA) {
+                System.out.println(tarefa.getTempoFinalizadoEmMinutos());
+                if(tarefa.getTempoFinalizadoEmMinutos() < 1) {
+                    Date horarioDeCriacao = tarefa.getMomento();
+                    LocalDateTime inicio = LocalDateTime.ofInstant(horarioDeCriacao.toInstant(), ZoneId.systemDefault());
+                    LocalDateTime fim = LocalDateTime.now();
+                    Duration duracao = Duration.between(inicio, fim);
+                    tarefa.setTempoFinalizadoEmMinutos(duracao.toMinutes());
+                } else {
+                    throw new TarefaException("Tarefa já finalizada");
+                }
+            }
+
             tarefa.setStatus(escolhido);
         } else {
             throw new StatusNaoEncontrado("Status não aceito.");

@@ -3,6 +3,7 @@ package taskEasy.demo.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -20,6 +21,9 @@ public class Tarefa {
     private String nome;
     private String descricao;
     private Date prazo;
+
+    @Column(name = "tempo_finalizado")
+    private long tempoFinalizadoEmMinutos;
 
     private STATUS_TAREFA status;
     private Date momento;
@@ -43,6 +47,7 @@ public class Tarefa {
         this.responsavel = pessoa;
         this.departamento = departamento;
         this.momento = new Date();
+        this.tempoFinalizadoEmMinutos = 0;
     }
 
     public String getNome() {
@@ -107,5 +112,13 @@ public class Tarefa {
 
     public void setDepartamentoResponsavel(Departamento departamentoResponsavel) {
         this.departamento= departamentoResponsavel;
+    }
+
+    public void setTempoFinalizadoEmMinutos(Long tempoFinalizadoEmMinutos) {
+        this.tempoFinalizadoEmMinutos = tempoFinalizadoEmMinutos;
+    }
+
+    public Long getTempoFinalizadoEmMinutos() {
+        return tempoFinalizadoEmMinutos;
     }
 }
