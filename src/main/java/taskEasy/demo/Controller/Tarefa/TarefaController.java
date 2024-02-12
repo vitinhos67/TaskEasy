@@ -36,7 +36,7 @@ public class TarefaController {
     }
 
 
-    @PostMapping(path = "/atualizar")
+    @GetMapping(path = "/atualizar")
     public Tarefa atualizarStatusTarefa(@RequestParam int id, @RequestParam String status) throws Exception {
         return  this.tarefaService.atualizarStatusTarefa(id, status);
 

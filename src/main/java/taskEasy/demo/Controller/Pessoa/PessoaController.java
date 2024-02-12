@@ -73,7 +73,7 @@ public class PessoaController {
     }
 
 
-    @GetMapping(path = "/encontrar")
+    @PostMapping(path = "/encontrar")
     public ResponseEntity<DataResponse<List<Pessoa>>> encontrarPessoaPorParametros(@RequestParam String nome, @RequestParam String departamento) {
         List<Pessoa> pessoaEncontrada = this.pessoaService.encontrarPessoaPorParametros(nome, departamento);
         return ResponseEntity.status(HttpStatus.OK).body(new DataResponse<>(true, pessoaEncontrada));
