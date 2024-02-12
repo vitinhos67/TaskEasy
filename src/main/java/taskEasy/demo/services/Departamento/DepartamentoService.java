@@ -4,6 +4,7 @@ package taskEasy.demo.services.Departamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import taskEasy.demo.dto.Departamento.CriarDepartamento;
+import taskEasy.demo.exceptions.DepartamentoInvalido;
 import taskEasy.demo.models.entity.Departamento;
 import taskEasy.demo.models.repository.DepartamentoRepository;
 
@@ -18,7 +19,15 @@ public class DepartamentoService {
 
 
     public Departamento criarDepartamento(CriarDepartamento criarDepartamento) {
+
         Departamento departamento = new Departamento(criarDepartamento.nome().toLowerCase());
+
+        Departamento jaExiste = this.encontrarDepartamentoPorNome(criarDepartamento.nome());
+
+        if(jaExiste != null) {
+            throw new DepartamentoInvalido("Departamento ja criado");
+        }
+
         return this.departamentoRepository.save(departamento);
     }
 

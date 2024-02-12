@@ -3,15 +3,17 @@ package taskEasy.demo.models;
 import javax.xml.crypto.Data;
 import java.util.Date;
 
-public class DataResponse {
+public class DataResponse<T> {
 
-    boolean sucesso;
-    Date momento;
+    private boolean sucesso;
+    private Date momento;
+    private T data;
 
 
-    public DataResponse(boolean sucesso, Date momento) {
+    public DataResponse(boolean sucesso, T response) {
         this.sucesso = sucesso;
-        this.momento = momento;
+        this.momento = new Date();
+        this.data = response;
     }
 
     public boolean isSucesso() {
@@ -28,5 +30,14 @@ public class DataResponse {
 
     public Date getMomento() {
         return momento;
+    }
+
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }

@@ -12,6 +12,8 @@ public class Departamento {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(unique = true)
     private String nome;
     private Date momento;
     /*int quantidadeAtual;
