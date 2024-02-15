@@ -1,9 +1,19 @@
-FROM eclipse-temurin:17-jdk-jammy
+FROM maven:latest AS builder
 
 WORKDIR /app
 
-COPY . .
+COPY .mvn  /.mvn
+COPY mvnw pom.xml ./
+COPY src ./src
 
-COPY /target/*.jar taskEasy.jar
+RUN mvn clean package
 
-CMD ["java", "-jar", "/target/taskEasy*.jar"]
+EXPOSE 5432
+
+FROM openjdk:17-jdk
+
+WORKDIR /app
+
+COPY --from=builder /app/target/taskEasy-0.0.1-SNAPSHOT.jar /app/taskEasy.jar
+
+CMD ["java", "-jar", "taskEasy.jar"]

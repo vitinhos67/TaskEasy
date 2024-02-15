@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   taskeasyapp:
     build: .
@@ -5,6 +7,12 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/taskeasy
+    networks:
+      - taskeasy_network
+
   postgres:
     image: 'postgres:latest'
     restart: always
@@ -14,7 +22,15 @@ services:
       POSTGRES_USER: 'victor'
     ports:
       - '5432:5432'
+    networks:
+      - taskeasy_network
+
   redis:
     image: 'redis:latest'
     ports:
       - '6379'
+    networks:
+      - taskeasy_network
+
+networks:
+  taskeasy_network:

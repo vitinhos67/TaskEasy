@@ -1,7 +1,9 @@
 package taskEasy.demo;
 
+import jakarta.servlet.annotation.WebServlet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 
 @SpringBootApplication
