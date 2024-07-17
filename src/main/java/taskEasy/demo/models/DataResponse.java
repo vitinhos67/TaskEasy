@@ -45,7 +45,6 @@ public class DataResponse<T> {
         return momento;
     }
 
-
     public T getData() {
         return data;
     }

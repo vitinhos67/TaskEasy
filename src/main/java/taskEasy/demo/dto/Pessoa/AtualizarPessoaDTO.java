@@ -1,4 +1,3 @@
 package taskEasy.demo.dto.Pessoa;
 
-public record AtualizarPessoaDTO(String nome, String email, int ativo, String departamento) {
-}
+public record AtualizarPessoaDTO(String nome, String email, int ativo, String departamento) {}

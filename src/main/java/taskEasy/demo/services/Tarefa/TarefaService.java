@@ -144,7 +144,6 @@ public class TarefaService {
         String departamentoDaPessoa = pessoa.getDepartamentos();
         String departamentoDaTarefa = encontrarTarefa.getDepartamento().getNome();
 
-
         if(departamentoDaPessoa != null) {
 
             if(!departamentoDaPessoa.equals(departamentoDaTarefa)) {
@@ -155,9 +154,7 @@ public class TarefaService {
             throw new DepartamentoInvalido("Pessoa não contem um departamento");
         }
 
-
         encontrarTarefa.setResponsavel(pessoa);
-
         return this.tarefaRepository.save(encontrarTarefa);
 
     }

@@ -19,9 +19,7 @@ public class DepartamentoService {
 
 
     public Departamento criarDepartamento(CriarDepartamento criarDepartamento) {
-
         Departamento departamento = new Departamento(criarDepartamento.nome().toLowerCase());
-
         Departamento jaExiste = this.encontrarDepartamentoPorNome(criarDepartamento.nome());
 
         if(jaExiste != null) {
